@@ -5,15 +5,15 @@ local M = {}
 function M.setup(options)
   -- Variable for the size of the opened terminal
   -- 60 works pretty good for the debug logs
-  M.terminal_size = options.terminal_size or M.terminal_size
+  M.terminal_size = options.terminal_size or M.terminal_size or 60
   -- Directory where the robot code is located
-  M.robot_directory = options.robot_directory or M.robot_directory
+  M.robot_directory = options.robot_directory or M.robot_directory or '~/swerve2024/'
   -- Whether to quit the terminal on success
-  M.autoQuitOnSuccess = options.autoQuitOnSuccess or M.autoQuitOnSuccess
+  M.autoQuitOnSuccess = options.autoQuitOnSuccess or M.autoQuitOnSuccess or true
   -- Whether to quit the terminal on failure NOTE: This is only used if autoQuitOnSuccess is true
   -- An error message will still be printed
-  M.autoQuitOnFailure = options.autoQuitOnFailure or M.autoQuitOnFailure
-  M.teamNumber = options.teamNumber or M.teamNumber
+  M.autoQuitOnFailure = options.autoQuitOnFailure or M.autoQuitOnFailure or false
+  M.teamNumber = options.teamNumber or M.teamNumber or 1740
 end
 
 function M.deployRobotCode()
