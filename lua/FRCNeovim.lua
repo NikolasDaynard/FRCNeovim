@@ -45,7 +45,8 @@ function M.addVendorDep(link)
   local result = handle:read("*a")
   handle:close()
 
-  print(result)
+  vim.cmd(':e ' .. M.robot_directory .. '/vendordeps/test.json')
+  vim.fn.append("$", result)
 end
 
 
