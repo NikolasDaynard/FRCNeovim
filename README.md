@@ -15,6 +15,10 @@ You can deploy with
 ```vim
 :DeployRobotCode
 ```
+For help or reference you can run
+```vim
+:FRCNeovimHelp
+```
 This is much faster than VSCode. To setup the plugin, using vim-plug, use
 ```lua
 vim.cmd [[
