@@ -58,7 +58,7 @@ function M.addVendorDep(link)
   -- end
   local startPos, endPos = string.find(result, 'fileName')
 
-  print(result[startPos + 1])
+  print(startPos)
 
   -- open the file in a new buffer
   vim.cmd('vsplit | :e ' .. M.robot_directory .. 'vendordeps/test.json')
