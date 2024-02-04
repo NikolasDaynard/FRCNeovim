@@ -21,16 +21,4 @@ function M.yesNoPrompt(question)
   return answer:lower() == 'y'
 end
 
-function M.checkConfigs()
-  if M.robot_directory == nil then
-    print('robot_directory is not set')
-    return false
-  end
-  if M.teamNumber == nil then
-    print('teamNumber is not set')
-    return false
-  end
-  return true
-end
-
 return M

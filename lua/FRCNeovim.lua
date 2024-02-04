@@ -35,7 +35,7 @@ function M.setup(options)
 end
 
 function M.addVendorDep(link)
-  if utils.checkConfigs() == false then
+  if checkConfigs() == false then
     return
   end
   -- check last 5 characters of the link for .json
@@ -75,7 +75,7 @@ end
 
 
 function M.deployRobotCode()
-  if utils.checkConfigs() == false then
+  if checkConfigs() == false then
     return
   end
   local predefined_commands = {
@@ -88,7 +88,7 @@ function M.deployRobotCode()
 end
 
 function M.buildRobotCode()
-  if utils.checkConfigs() == false then
+  if checkConfigs() == false then
     return
   end
   local predefined_commands = {
@@ -170,6 +170,17 @@ function M.runCommands(predefined_commands, current_directory, current_file)
 
 end
 
+function checkConfigs()
+  if M.robot_directory == nil then
+    print('robot_directory is not set')
+    return false
+  end
+  if M.teamNumber == nil then
+    print('teamNumber is not set')
+    return false
+  end
+  return true
+end
 -- Define the commands with the predefined set of commands
 vim.cmd([[command! DeployRobotCode lua require'FRCNeovim'.deployRobotCode()]])
 vim.cmd([[command! BuildRobotCode lua require'FRCNeovim'.buildRobotCode()]])
