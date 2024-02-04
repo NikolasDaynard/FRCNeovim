@@ -59,13 +59,13 @@ function M.addVendorDep(link)
   local startPos, endPos = string.find(result, 'fileName')
   local name = ''
   -- Iterate forward through the link from endPos to the end of the string
-  for i = endPos, #link do
+  for i = startPos + 8, #result do
     -- If it sees a comma, then break
-    if string.sub(link, i, i) == ',' then
+    if string.sub(result, i, i) == ',' then
         break
     end
     -- Add character to the name
-    name = name .. string.sub(link, i, i)
+    name = name .. string.sub(result, i, i)
   end
 
   print(name)
