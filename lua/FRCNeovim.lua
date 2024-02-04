@@ -19,6 +19,14 @@ function M.setup(options)
   if M.autoQuitOnFailure == nil then
     M.autoQuitOnFailure = false
   end
+  M.printOnSuccess = options.printOnSuccess
+  if M.printOnSuccess == nil then
+    M.printOnSuccess = true
+  end
+  M.printOnFailure = options.printOnFailure
+  if M.printOnFailure == nil then
+    M.printOnFailure = true
+  end
   M.teamNumber = options.teamNumber or M.teamNumber or 1740
 end
 
@@ -82,13 +90,20 @@ function M.runCommands(predefined_commands, current_directory, current_file)
             if vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' then
               vim.cmd(':q') -- close the terminal window
             end
+            if M.printOnSuccess then
+              vim.cmd('echohl Normal') -- set the color to red
+              vim.cmd('echomsg "Success"')
+              vim.cmd('echohl None') -- reset the color
+            end
           else
             if M.autoQuitOnFailure and vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' then
               vim.cmd(':q') -- close the terminal window
             end
-            vim.cmd('echohl Error') -- set the color to red
-            vim.cmd('echomsg "Failed"')
-            vim.cmd('echohl None') -- reset the color            
+            if M.printOnFailure then
+              vim.cmd('echohl Error') -- set the color to red
+              vim.cmd('echomsg "Failed"')
+              vim.cmd('echohl None') -- reset the color
+            end
           end
         end
       })

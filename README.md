@@ -43,6 +43,8 @@ require'FRCNeovim'.setup{
   autoQuitOnSuccess = true,
   autoQuitOnFailure = false,
   teamNumber = 1740,
+  printOnFailure = true,
+  printOnSuccess = true,
 }
 ```
 in vim,
@@ -53,6 +55,8 @@ call FRCNeovim#setup({
   \ 'autoQuitOnSuccess': 1,
   \ 'autoQuitOnFailure': 1,
   \ 'teamNumber': 1740
+  \ 'printOnFailure : 1'
+  \ 'printOnSuccess : 1'
   \ })
 ```
 Here is an example init.lua with java syntax highlighting (lsp-config and treesitter) and FRCNeovim. I also included cmp to add auto-completion.
@@ -86,6 +90,8 @@ require'FRCNeovim'.setup{
   autoQuitOnSuccess = true,
   autoQuitOnFailure = false,
   teamNumber = 1740,
+  printOnFailure = true,
+  printOnSuccess = true,
 }
 
 -- LSP diagnostics signs configuration
