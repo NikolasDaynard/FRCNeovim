@@ -36,7 +36,7 @@ function M.deployRobotCode()
   local predefined_commands = {
     'cd ' .. M.robot_directory .. ' && ./gradlew deploy -PteamNumber=' .. M.teamNumber .. ' --offline',
   }
-  if M.javaHome ~= '' then
+  if M.javaHome ~= nil then
     predefined_commands[1] = predefined_commands[1] .. ' -Dorg.gradle.java.home="' .. M.javaHome .. '"'
   end
   M.runCommands(predefined_commands, vim.fn.getcwd(), vim.fn.expand('%:p')) -- expand('%:p') returns the full path of the current file
@@ -46,7 +46,7 @@ function M.buildRobotCode()
   local predefined_commands = {
     'cd ' .. M.robot_directory .. ' && ./gradlew build',
   }
-  if M.javaHome ~= '' then
+  if M.javaHome ~= nil then
     predefined_commands[1] = predefined_commands[1] .. ' -Dorg.gradle.java.home="' .. M.javaHome .. '"'
   end
 
