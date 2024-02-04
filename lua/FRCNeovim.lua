@@ -46,7 +46,9 @@ function M.addVendorDep(link)
   end
 
   if isCurlAvailable() == false then
-    print('curl is not available')
+    vim.cmd('echohl Error') -- set the color to normal
+    vim.cmd('echomsg "Curl is not avalible"')
+    vim.cmd('echohl None') -- reset the color
     return
   end
 
@@ -56,6 +58,13 @@ function M.addVendorDep(link)
   handle:close()
 
   local startPos, endPos = string.find(result, 'fileName')
+
+  if startPos == nil then
+    vim.cmd('echohl Error') -- set the color to normal
+    vim.cmd('echomsg "Filename not found in the json file, it is very likely the link is bad"')
+    vim.cmd('echohl None') -- reset the color
+    return
+  end
   local name = ''
   -- Iterate forward through the link from endPos to the end of the string
   -- 12 is the length of fileName": "
