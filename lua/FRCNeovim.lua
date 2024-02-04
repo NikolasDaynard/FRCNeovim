@@ -96,7 +96,7 @@ function M.runCommands(predefined_commands, current_directory, current_file)
         on_exit = function(job_id, exit_code, _) -- callback function for the exit code
           if exit_code == 0 then -- success!
             -- check if window is terminal to avoid closing other windows
-            if vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' then
+            if vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and hasOtherOpenBuffers() then
               vim.cmd(':q') -- close the terminal window
             end
             if M.printOnSuccess then
@@ -105,7 +105,7 @@ function M.runCommands(predefined_commands, current_directory, current_file)
               vim.cmd('echohl None') -- reset the color
             end
           else
-            if M.autoQuitOnFailure and vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' then
+            if M.autoQuitOnFailure and vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and hasOtherOpenBuffers() then
               vim.cmd(':q') -- close the terminal window
             end
             if M.printOnFailure then
@@ -120,6 +120,20 @@ function M.runCommands(predefined_commands, current_directory, current_file)
     end
   end
 
+end
+
+-- checks if other buffers are open
+function hasOtherOpenBuffers()
+  local bufinfo = vim.fn.getbufinfo()
+  local currentBufNr = vim.fn.bufnr('%')
+
+  for _, buf in ipairs(bufinfo) do
+      if buf.bufnr ~= currentBufNr and vim.fn.bufwinnr(buf.bufnr) ~= -1 then
+          return true  -- Found at least one other open buffer
+      end
+  end
+
+  return false  -- No other open buffers found
 end
 
 -- Define the commands with the predefined set of commands
