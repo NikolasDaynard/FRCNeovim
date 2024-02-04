@@ -15,6 +15,10 @@ You can deploy with
 ```vim
 :DeployRobotCode
 ```
+Download vendor dependancies
+```vim
+:AddVendorDep <link>
+```
 For help or reference you can run
 ```vim
 :FRCNeovimHelp
@@ -39,10 +43,10 @@ To configure it, in lua,
 ```lua
 require'FRCNeovim'.setup{
   terminal_size = 60,
-  robot_directory = '~/swerve2024/',
+  robot_directory = '~/swerve2024/', -- necessary 
   autoQuitOnSuccess = true,
   autoQuitOnFailure = false,
-  teamNumber = 1740,
+  teamNumber = 1740, -- necessary 
   printOnFailure = true,
   printOnSuccess = true,
   -- This option is strongly discoraged because without java home, the lsp fails to read the java code
@@ -53,10 +57,10 @@ in vim,
 ```vim
 call FRCNeovim#setup({
   \ 'terminal_size': 60,
-  \ 'robot_directory': '~/swerve2024/',
+  \ 'robot_directory': '~/swerve2024/', " necessary
   \ 'autoQuitOnSuccess': 1,
   \ 'autoQuitOnFailure': 1,
-  \ 'teamNumber': 1740
+  \ 'teamNumber': 1740 " necessary
   \ 'printOnFailure : 1'
   \ 'printOnSuccess : 1'
   \ " This option is strongly discoraged because without java home, the lsp fails to read the java code

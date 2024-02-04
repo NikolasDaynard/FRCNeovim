@@ -7,7 +7,7 @@ function M.setup(options)
   -- 60 works pretty good for the debug logs
   M.terminal_size = options.terminal_size or M.terminal_size or 60
   -- Directory where the robot code is located
-  M.robot_directory = options.robot_directory or M.robot_directory or '~/swerve2024/'
+  M.robot_directory = options.robot_directory or M.robot_directory
   -- Whether to quit the terminal on success
   M.autoQuitOnSuccess = options.autoQuitOnSuccess
   if M.autoQuitOnSuccess == nil then
@@ -27,12 +27,15 @@ function M.setup(options)
   if M.printOnFailure == nil then
     M.printOnFailure = true
   end
-  M.teamNumber = options.teamNumber or M.teamNumber or 1740
+  M.teamNumber = options.teamNumber or M.teamNumber
   -- Java home for the robot code optional if you have the environment variable set
   M.javaHome = options.javaHome or M.javaHome
 end
 
 function M.addVendorDep(link)
+  if checkConfigs() == false then
+    return
+  end
   -- check last 5 characters of the link for .json
   if string.sub(link, -5) ~= ".json" then
     if not yesNoPrompt("The link does not end in .json, are you sure you want to continue?") then
@@ -70,6 +73,9 @@ end
 
 
 function M.deployRobotCode()
+  if checkConfigs() == false then
+    return
+  end
   local predefined_commands = {
     'cd ' .. M.robot_directory .. ' && ./gradlew deploy -PteamNumber=' .. M.teamNumber .. ' --offline',
   }
@@ -80,6 +86,9 @@ function M.deployRobotCode()
 end
 
 function M.buildRobotCode()
+  if checkConfigs() == false then
+    return
+  end
   local predefined_commands = {
     'cd ' .. M.robot_directory .. ' && ./gradlew build',
   }
@@ -178,6 +187,17 @@ function yesNoPrompt(question)
   return answer:lower() == 'y'
 end
 
+function checkConfigs()
+  if M.robot_directory == nil then
+    print('robot_directory is not set')
+    return false
+  end
+  if M.teamNumber == nil then
+    print('teamNumber is not set')
+    return false
+  end
+  return true
+end
 -- Define the commands with the predefined set of commands
 vim.cmd([[command! DeployRobotCode lua require'FRCNeovim'.deployRobotCode()]])
 vim.cmd([[command! BuildRobotCode lua require'FRCNeovim'.buildRobotCode()]])

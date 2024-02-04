@@ -4,5 +4,7 @@ You can run
 to build robot code, and you can run
 :DeployRobotCode
 to deploy robot code.
+:AddVendorDep <link>
+to add a vendor dependency 
 
 If you are struggling with java errors, make sure you have set the JAVA_HOME environment variable in your .zshrc / .bashrc.
