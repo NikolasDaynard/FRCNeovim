@@ -1,1 +1,8 @@
 *FRCNeovim*
+You can run
+:BuildRobotCode
+to build robot code, and you can run
+:DeployRobotCode
+to deploy robot code.
+
+If you are struggling with java errors, make sure you have set the JAVA_HOME environment variable in your .zshrc / .bashrc.
