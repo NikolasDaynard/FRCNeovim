@@ -45,6 +45,8 @@ require'FRCNeovim'.setup{
   teamNumber = 1740,
   printOnFailure = true,
   printOnSuccess = true,
+  -- This option is strongly discoraged because without java home, the lsp fails to read the java code
+  javaHome = '/Users/NikolasDaynard/wpilib/2024/jdk'
 }
 ```
 in vim,
@@ -57,6 +59,8 @@ call FRCNeovim#setup({
   \ 'teamNumber': 1740
   \ 'printOnFailure : 1'
   \ 'printOnSuccess : 1'
+  \ " This option is strongly discoraged because without java home, the lsp fails to read the java code
+  \ javaHome : '/Users/NikolasDaynard/wpilib/2024/jdk'
   \ })
 ```
 Here is an example init.lua with java syntax highlighting (lsp-config and treesitter) and FRCNeovim. I also included cmp to add auto-completion.
