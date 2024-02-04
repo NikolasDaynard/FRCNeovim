@@ -46,7 +46,7 @@ function M.addVendorDep(link)
   handle:close()
 
   vim.cmd(':e ' .. M.robot_directory .. 'vendordeps/test.json')
-  vim.fn.setline(1, split(result, "\n"))
+  vim.fn.setline(1, vim.fn.split(result, "\n"))
 end
 
 
