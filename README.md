@@ -1,5 +1,5 @@
 # FRCNeovim
-This is a plugin for Neovim allowing deploying and building. It should work with cpp.
+This is a plugin for Neovim allowing deploying and building. It works with cpp and java.
 
 IMPORTANT NOTE: You have to set JAVA_HOME in your .zshrc / .bashrc to link to the wpilib java jdk. For 2024, that should look somthing like
 ```
