@@ -9,7 +9,7 @@ function M.setup(options)
   -- Directory where the robot code is located
   M.robot_directory = options.robot_directory or M.robot_directory or '~/swerve2024/'
   -- Whether to quit the terminal on success
-  M.autoQuitOnSuccess = options.autoQuitOnSuccess ~= nil and options.autoQuitOnSuccess or M.autoQuitOnSuccess or true
+  M.autoQuitOnSuccess = false
   -- Whether to quit the terminal on failure NOTE: This is only used if autoQuitOnSuccess is true
   -- An error message will still be printed
   M.autoQuitOnFailure = options.autoQuitOnFailure ~= nil and options.autoQuitOnFailure or M.autoQuitOnFailure or false
