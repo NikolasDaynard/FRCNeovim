@@ -56,7 +56,7 @@ function M.addVendorDep(link)
   --   -- because we iterate backwards, it has to be added to the front
   --   name = string.sub(link, i, i) .. name
   -- end
-  local startPos, endPos = string.find(result, "\"fileName\": \"")
+  local startPos, endPos = string.find(result, '"fileName": "')
 
   print(result[endPos + 1])
 
