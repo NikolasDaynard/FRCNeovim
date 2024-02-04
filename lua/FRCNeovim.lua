@@ -28,12 +28,17 @@ function M.setup(options)
     M.printOnFailure = true
   end
   M.teamNumber = options.teamNumber or M.teamNumber or 1740
+  -- Java home for the robot code
+  M.javaHome = options.javaHome or M.javaHome
 end
 
 function M.deployRobotCode()
   local predefined_commands = {
     'cd ' .. M.robot_directory .. ' && ./gradlew deploy -PteamNumber=' .. M.teamNumber .. ' --offline',
   }
+  if M.javaHome ~= '' then
+    table.insert(predefined_commands, 1, '-Dorg.gradle.java.home="' .. M.javaHome .. '"')
+  end
   M.runCommands(predefined_commands, vim.fn.getcwd(), vim.fn.expand('%:p')) -- expand('%:p') returns the full path of the current file
 end
 
@@ -41,6 +46,9 @@ function M.buildRobotCode()
   local predefined_commands = {
     'cd ' .. M.robot_directory .. ' && ./gradlew build',
   }
+  if M.javaHome ~= '' then
+    table.insert(predefined_commands, 1, '-Dorg.gradle.java.home="' .. M.javaHome .. '"')
+  end
   M.runCommands(predefined_commands, vim.fn.getcwd(), vim.fn.expand('%:p')) -- expand('%:p') returns the full path of the current file
 end
 
