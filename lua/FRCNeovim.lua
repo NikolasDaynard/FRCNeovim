@@ -33,7 +33,7 @@ function M.setup(options)
 end
 
 function M.addVendorDep(link)
-  local command = "curl -s " .. url
+  local command = "curl -s " .. link
   local handle = io.popen(command)
   local result = handle:read("*a")
   handle:close()
