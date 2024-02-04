@@ -41,7 +41,7 @@ require'FRCNeovim'.setup{
   terminal_size = 60,
   robot_directory = '~/swerve2024/',
   autoQuitOnSuccess = true,
-  autoQuitOnFailure = true,
+  autoQuitOnFailure = false,
   teamNumber = 1740,
 }
 ```
