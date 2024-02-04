@@ -46,11 +46,15 @@ function M.addVendorDep(link)
   handle:close()
 
   local name = ''
+  -- iterate through the link to get the name of the file
   for i = #link, 1, -1 do
-    name = name .. string.sub(link, i, i)
+    -- if it sees a slash then break
     if string.sub(link, i, i) == '/' then
-        break
+      break
     end
+    -- add character to the name
+    -- because we iterate backwards, it has to be added to the front
+    name = string.sub(link, i, i) .. name
   end
 
   print(name)
