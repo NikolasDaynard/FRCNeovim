@@ -2,7 +2,7 @@
 
 local M = {}
 
-local utils = require'lua.utils'
+local utils = require'utils'
 
 function M.setup(options)
   -- Variable for the size of the opened terminal
