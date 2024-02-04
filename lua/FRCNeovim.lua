@@ -45,19 +45,20 @@ function M.addVendorDep(link)
   local result = handle:read("*a")
   handle:close()
 
-  local name = ''
-  -- iterate through the link to get the name of the file
-  for i = #link, 1, -1 do
-    -- if it sees a slash then break
-    if string.sub(link, i, i) == '/' then
-      break
-    end
-    -- add character to the name
-    -- because we iterate backwards, it has to be added to the front
-    name = string.sub(link, i, i) .. name
-  end
+  -- local name = ''
+  -- -- iterate through the link to get the name of the file
+  -- for i = #link, 1, -1 do
+  --   -- if it sees a slash then break
+  --   if string.sub(link, i, i) == '/' then
+  --     break
+  --   end
+  --   -- add character to the name
+  --   -- because we iterate backwards, it has to be added to the front
+  --   name = string.sub(link, i, i) .. name
+  -- end
+  local startPos, endPos = string.find(result, "\"fileName\": \"")
 
-  print(name)
+  print(result[endPos + 1])
 
   -- open the file in a new buffer
   vim.cmd('vsplit | :e ' .. M.robot_directory .. 'vendordeps/test.json')
