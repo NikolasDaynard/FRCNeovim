@@ -8,3 +8,19 @@ to deploy robot code.
 to add a vendor dependency 
 
 If you are struggling with java errors, make sure you have set the JAVA_HOME environment variable in your .zshrc / .bashrc.
+
+To configure your init.lua add
+
+require'FRCNeovim'.setup{
+  robot_directory = '~/swerve2024/',
+  teamNumber = 1740,
+}
+or in init.vim
+
+lua << EOF
+  require'FRCNeovim'.setup{
+    robot_directory = '~/swerve2024/',
+    teamNumber = 1740,
+    -- Other settings...
+  }
+EOF
