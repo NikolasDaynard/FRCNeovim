@@ -1,5 +1,11 @@
 # FRCNeovim
-This is a plugin for Neovim allowing deploying and building in java
+This is a plugin for Neovim allowing deploying and building in java.
+
+IMPORTANT NOTE: You have to set JAVA_HOME in your .zshrc / .bashrc to link to the wpilib java jdk. For 2024, that should look somthing like
+```
+export JAVA_HOME="/Users/[Your Name]/wpilib/2024/jdk"
+```
+If you skip this Java will throw a huge page of errors at you when opening FRC java code.
 
 You can run a build with
 ```vim
