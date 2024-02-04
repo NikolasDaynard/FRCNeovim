@@ -56,9 +56,16 @@ function M.addVendorDep(link)
   --   -- because we iterate backwards, it has to be added to the front
   --   name = string.sub(link, i, i) .. name
   -- end
-  local startPos, endPos = string.find(result, 'fileName')
-
-  print(endPos)
+-- Iterate forward through the link from endPos to the end of the string
+for i = endPos, #link do
+  -- If it sees a comma, then break
+  if string.sub(link, i, i) == ',' then
+      break
+  end
+  -- Add character to the name
+  name = name .. string.sub(link, i, i)
+end
+  print(name)
 
   -- open the file in a new buffer
   vim.cmd('vsplit | :e ' .. M.robot_directory .. 'vendordeps/test.json')
