@@ -33,7 +33,12 @@ function M.setup(options)
 end
 
 function M.addVendorDep(link)
-  print('Adding vendor dep:', link)
+  local command = "curl -s " .. url
+  local handle = io.popen(command)
+  local result = handle:read("*a")
+  handle:close()
+
+  print(result)
 end
 
 function M.deployRobotCode()
@@ -143,6 +148,7 @@ end
 -- Define the commands with the predefined set of commands
 vim.cmd([[command! DeployRobotCode lua require'FRCNeovim'.deployRobotCode()]])
 vim.cmd([[command! BuildRobotCode lua require'FRCNeovim'.buildRobotCode()]])
+
 vim.cmd("command! -nargs=1 AddVendorDep lua require'FRCNeovim'.addVendorDep(<f-args>)")
 
 -- help command
