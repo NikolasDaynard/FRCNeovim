@@ -143,7 +143,7 @@ end
 -- Define the commands with the predefined set of commands
 vim.cmd([[command! DeployRobotCode lua require'FRCNeovim'.deployRobotCode()]])
 vim.cmd([[command! BuildRobotCode lua require'FRCNeovim'.buildRobotCode()]])
-vim.cmd("command! -nargs=1 DeployRobotCode lua require'FRCNeovim'.addVendorDep(<args>)")
+vim.cmd("command! -nargs=1 AddVendorDep lua require'FRCNeovim'.addVendorDep(<args>)")
 
 -- help command
 vim.cmd([[command! -nargs=0 FRCNeovimHelp :help FRCNeovim]])
