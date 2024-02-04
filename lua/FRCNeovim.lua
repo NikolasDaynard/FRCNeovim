@@ -39,6 +39,8 @@ function M.deployRobotCode()
   if M.javaHome ~= '' then
     table.insert(predefined_commands, ' -Dorg.gradle.java.home="' .. M.javaHome .. '"')
   end
+  -- Convert the table to a string
+  predefined_commands = table.concat(predefined_commands, '')
   M.runCommands(predefined_commands, vim.fn.getcwd(), vim.fn.expand('%:p')) -- expand('%:p') returns the full path of the current file
 end
 
@@ -49,6 +51,9 @@ function M.buildRobotCode()
   if M.javaHome ~= '' then
     table.insert(predefined_commands, ' -Dorg.gradle.java.home="' .. M.javaHome .. '"')
   end
+  -- Convert the table to a string
+  predefined_commands = table.concat(predefined_commands, '')
+
   M.runCommands(predefined_commands, vim.fn.getcwd(), vim.fn.expand('%:p')) -- expand('%:p') returns the full path of the current file
 end
 
