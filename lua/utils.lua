@@ -3,7 +3,7 @@
 local M = {}
 
 -- checks if other buffers are open
-function hasOtherOpenBuffers()
+function M.hasOtherOpenBuffers()
   local bufinfo = vim.fn.getbufinfo()
   local currentBufNr = vim.fn.bufnr('%')
 
@@ -16,12 +16,12 @@ function hasOtherOpenBuffers()
   return false  -- No other open buffers found
 end
 
-function yesNoPrompt(question)
+function M.yesNoPrompt(question)
   local answer = vim.fn.input(question .. ' (y/n): ')
   return answer:lower() == 'y'
 end
 
-function checkConfigs()
+function M.checkConfigs()
   if M.robot_directory == nil then
     print('robot_directory is not set')
     return false
