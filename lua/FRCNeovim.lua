@@ -71,7 +71,7 @@ function M.addVendorDep(link)
   print(name)
 
   -- open the file in a new buffer
-  vim.cmd('vsplit | :e ' .. M.robot_directory .. 'vendordeps/ .. name')
+  vim.cmd('vsplit | :e ' .. M.robot_directory .. 'vendordeps/' .. name)
   -- split the result by new line and set the lines
   vim.fn.setline(1, vim.fn.split(result, "\n"))
 end
