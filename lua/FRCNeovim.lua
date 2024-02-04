@@ -45,7 +45,15 @@ function M.addVendorDep(link)
   local result = handle:read("*a")
   handle:close()
 
-  vim.cmd(':e ' .. M.robot_directory .. 'vendordeps/test.json')
+  local name = ''
+  for i = #link, 1, -1 do
+    name = name .. string.sub(myString, i, i)
+  end
+  print(name)
+  
+  -- open the file in a new buffer
+  vim.cmd('vsplit | :e ' .. M.robot_directory .. 'vendordeps/test.json')
+  -- split the result by new line and set the lines
   vim.fn.setline(1, vim.fn.split(result, "\n"))
 end
 
