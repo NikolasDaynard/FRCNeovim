@@ -33,6 +33,13 @@ function M.setup(options)
 end
 
 function M.addVendorDep(link)
+  -- check last 5 characters of the link for .json
+  if string.sub(link, -5) ~= ".json" then
+    if not yesNoPrompt("The link does not end in .json, are you sure you want to continue?") then
+      return
+    end
+  end
+
   local command = "curl -s " .. link
   local handle = io.popen(command)
   local result = handle:read("*a")
@@ -40,6 +47,7 @@ function M.addVendorDep(link)
 
   print(result)
 end
+
 
 function M.deployRobotCode()
   local predefined_commands = {
@@ -143,6 +151,11 @@ function hasOtherOpenBuffers()
   end
 
   return false  -- No other open buffers found
+end
+
+function yesNoPrompt(question)
+  local answer = vim.fn.input(question .. ' (y/n): ')
+  return answer:lower() == 'y'
 end
 
 -- Define the commands with the predefined set of commands
