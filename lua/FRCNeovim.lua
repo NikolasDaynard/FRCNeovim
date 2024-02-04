@@ -48,8 +48,7 @@ function M.addVendorDep(link)
   local name = ''
   for i = #link, 1, -1 do
     name = name .. string.sub(link, i, i)
-    if string.sub(name, 1, 1) == '/' then
-        name = string.sub(name, 2)
+    if string.sub(link, i, i) == '/' then
         break
     end
   end
