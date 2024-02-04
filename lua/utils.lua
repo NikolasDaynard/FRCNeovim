@@ -21,4 +21,8 @@ function M.yesNoPrompt(question)
   return answer:lower() == 'y'
 end
 
+function isCurlAvailable()
+  return vim.fn.executable('curl') == 1
+end
+
 return M

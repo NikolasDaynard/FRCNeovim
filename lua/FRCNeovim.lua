@@ -45,6 +45,11 @@ function M.addVendorDep(link)
     end
   end
 
+  if isCurlAvailable() == false then
+    print('curl is not available')
+    return
+  end
+
   local command = "curl -s " .. link
   local handle = io.popen(command)
   local result = handle:read("*a")
