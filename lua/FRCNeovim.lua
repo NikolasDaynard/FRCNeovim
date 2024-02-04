@@ -32,6 +32,10 @@ function M.setup(options)
   M.javaHome = options.javaHome or M.javaHome
 end
 
+function M.addVendorDep(link)
+  print('Adding vendor dep:', link)
+end
+
 function M.deployRobotCode()
   local predefined_commands = {
     'cd ' .. M.robot_directory .. ' && ./gradlew deploy -PteamNumber=' .. M.teamNumber .. ' --offline',
@@ -139,6 +143,8 @@ end
 -- Define the commands with the predefined set of commands
 vim.cmd([[command! DeployRobotCode lua require'FRCNeovim'.deployRobotCode()]])
 vim.cmd([[command! BuildRobotCode lua require'FRCNeovim'.buildRobotCode()]])
+vim.cmd("command! -nargs=1 DeployRobotCode lua require'FRCNeovim'.addVendorDep(<args>)")
+
 -- help command
 vim.cmd([[command! -nargs=0 FRCNeovimHelp :help FRCNeovim]])
 
