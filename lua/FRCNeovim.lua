@@ -45,20 +45,10 @@ function M.addVendorDep(link)
   local result = handle:read("*a")
   handle:close()
 
-  -- local name = ''
-  -- -- iterate through the link to get the name of the file
-  -- for i = #link, 1, -1 do
-  --   -- if it sees a slash then break
-  --   if string.sub(link, i, i) == '/' then
-  --     break
-  --   end
-  --   -- add character to the name
-  --   -- because we iterate backwards, it has to be added to the front
-  --   name = string.sub(link, i, i) .. name
-  -- end
   local startPos, endPos = string.find(result, 'fileName')
   local name = ''
   -- Iterate forward through the link from endPos to the end of the string
+  -- 12 is the length of fileName": "
   for i = startPos + 12, #result do
     -- If it sees a quote, then break
     if string.sub(result, i, i) == '"' then
@@ -74,6 +64,8 @@ function M.addVendorDep(link)
   vim.cmd('vsplit | :e ' .. M.robot_directory .. 'vendordeps/' .. name)
   -- split the result by new line and set the lines
   vim.fn.setline(1, vim.fn.split(result, "\n"))
+  -- save the file and quit
+  vim.cmd(':wq')
 end
 
 
