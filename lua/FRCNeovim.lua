@@ -2,6 +2,8 @@
 
 local M = {}
 
+local utils = require'FRCNeovim.utils'
+
 function M.setup(options)
   -- Variable for the size of the opened terminal
   -- 60 works pretty good for the debug logs
@@ -33,12 +35,12 @@ function M.setup(options)
 end
 
 function M.addVendorDep(link)
-  if checkConfigs() == false then
+  if utils.checkConfigs() == false then
     return
   end
   -- check last 5 characters of the link for .json
   if string.sub(link, -5) ~= ".json" then
-    if not yesNoPrompt("The link does not end in .json, are you sure you want to continue?") then
+    if not utils.yesNoPrompt("The link does not end in .json, are you sure you want to continue?") then
       return
     end
   end
@@ -73,7 +75,7 @@ end
 
 
 function M.deployRobotCode()
-  if checkConfigs() == false then
+  if utils.checkConfigs() == false then
     return
   end
   local predefined_commands = {
@@ -86,7 +88,7 @@ function M.deployRobotCode()
 end
 
 function M.buildRobotCode()
-  if checkConfigs() == false then
+  if utils.checkConfigs() == false then
     return
   end
   local predefined_commands = {
@@ -142,16 +144,16 @@ function M.runCommands(predefined_commands, current_directory, current_file)
         on_exit = function(job_id, exit_code, _) -- callback function for the exit code
           if exit_code == 0 then -- success!
             -- check if window is terminal to avoid closing other windows
-            if vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and hasOtherOpenBuffers() then
+            if vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and utils.hasOtherOpenBuffers() then
               vim.cmd(':q') -- close the terminal window
             end
             if M.printOnSuccess then
-              vim.cmd('echohl Normal') -- set the color to red
+              vim.cmd('echohl Normal') -- set the color to normal
               vim.cmd('echomsg "Success"')
               vim.cmd('echohl None') -- reset the color
             end
           else
-            if M.autoQuitOnFailure and vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and hasOtherOpenBuffers() then
+            if M.autoQuitOnFailure and vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and utils.hasOtherOpenBuffers() then
               vim.cmd(':q') -- close the terminal window
             end
             if M.printOnFailure then
@@ -168,36 +170,6 @@ function M.runCommands(predefined_commands, current_directory, current_file)
 
 end
 
--- checks if other buffers are open
-function hasOtherOpenBuffers()
-  local bufinfo = vim.fn.getbufinfo()
-  local currentBufNr = vim.fn.bufnr('%')
-
-  for _, buf in ipairs(bufinfo) do
-      if buf.bufnr ~= currentBufNr and vim.fn.bufwinnr(buf.bufnr) ~= -1 then
-          return true  -- Found at least one other open buffer
-      end
-  end
-
-  return false  -- No other open buffers found
-end
-
-function yesNoPrompt(question)
-  local answer = vim.fn.input(question .. ' (y/n): ')
-  return answer:lower() == 'y'
-end
-
-function checkConfigs()
-  if M.robot_directory == nil then
-    print('robot_directory is not set')
-    return false
-  end
-  if M.teamNumber == nil then
-    print('teamNumber is not set')
-    return false
-  end
-  return true
-end
 -- Define the commands with the predefined set of commands
 vim.cmd([[command! DeployRobotCode lua require'FRCNeovim'.deployRobotCode()]])
 vim.cmd([[command! BuildRobotCode lua require'FRCNeovim'.buildRobotCode()]])
