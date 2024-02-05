@@ -93,7 +93,7 @@ function M.deployRobotCode()
     return
   end
   local predefined_commands = {
-    'cd ' .. M.robot_directory .. ' && ./gradlew deploy -PteamNumber=' .. M.teamNumber .. ' --offline',
+    'terminal cd ' .. M.robot_directory .. ' && ./gradlew deploy -PteamNumber=' .. M.teamNumber .. ' --offline',
   }
   if M.javaHome ~= nil then
     predefined_commands[1] = predefined_commands[1] .. ' -Dorg.gradle.java.home="' .. M.javaHome .. '"'
@@ -106,7 +106,7 @@ function M.buildRobotCode()
     return
   end
   local predefined_commands = {
-    'cd ' .. M.robot_directory .. ' && ./gradlew build',
+    'terminal cd ' .. M.robot_directory .. ' && ./gradlew build',
   }
   if M.javaHome ~= nil then
     predefined_commands[1] = predefined_commands[1] .. ' -Dorg.gradle.java.home="' .. M.javaHome .. '"'
