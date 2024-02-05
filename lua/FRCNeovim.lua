@@ -116,8 +116,6 @@ function M.buildRobotCode()
 end
 
 function M.runCommands(predefined_commands, current_directory, current_file)
-  local width = vim.fn.winwidth(0)  -- Get current window width
-
   for _, command in ipairs(predefined_commands) do
     print('Executing command:', command)
     -- Check if terminal_size is 0
@@ -151,6 +149,8 @@ function M.runCommands(predefined_commands, current_directory, current_file)
   end
 end
 function openTerminal(command)
+  local width = vim.fn.winwidth(0)  -- Get current window width
+  
   if M.terminal_size < width / 2 then -- normal case
     vim.cmd('vsplit | vertical resize ' .. M.terminal_size .. ' | terminal ' .. command)
   else -- terminal_size is greater than half of the window width so open at half
