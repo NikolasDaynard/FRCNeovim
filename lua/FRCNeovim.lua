@@ -47,7 +47,7 @@ function M.addVendorDep(link)
 
   if isCurlAvailable() == false then
     vim.cmd('echohl Error') -- set the color to normal
-    vim.cmd('echomsg "Curl is not avalible"')
+    vim.cmd('echomsg ". Curl is not avalible"')
     vim.cmd('echohl None') -- reset the color
     return
   end
@@ -61,7 +61,7 @@ function M.addVendorDep(link)
 
   if startPos == nil then
     vim.cmd('echohl Error') -- set the color to normal
-    vim.cmd('echomsg "Filename not found in the json file, it is very likely the link is bad"')
+    vim.cmd('echomsg ". Filename not found in the json file, it is very likely the link is bad"')
     vim.cmd('echohl None') -- reset the color
     return
   end
@@ -147,43 +147,44 @@ function M.runCommands(predefined_commands, current_directory, current_file)
 
     elseif M.terminal_size < width / 2 then -- normal case
       vim.cmd('vsplit | vertical resize ' .. M.terminal_size .. ' | terminal ' .. command)
+      closeTerminal(command)
 
     else -- terminal_size is greater than half of the window width so open at half
       vim.cmd('vsplit | terminal ' .. command)
-    end
-
-    -- close the terminal
-    if M.autoQuitOnSuccess == true and M.terminal_size ~= 0 then -- 0 has special case
-      local job_id = vim.fn.jobstart(command, {
-        on_exit = function(job_id, exit_code, _) -- callback function for the exit code
-          if exit_code == 0 then -- success!
-            -- check if window is terminal to avoid closing other windows
-            if vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and utils.hasOtherOpenBuffers() then
-              vim.cmd(':q') -- close the terminal window
-            end
-            if M.printOnSuccess then
-              vim.cmd('echohl Normal') -- set the color to normal
-              vim.cmd('echomsg "Success"')
-              vim.cmd('echohl None') -- reset the color
-            end
-          else
-            if M.autoQuitOnFailure and vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and utils.hasOtherOpenBuffers() then
-              vim.cmd(':q') -- close the terminal window
-            end
-            if M.printOnFailure then
-              vim.cmd('echohl Error') -- set the color to red
-              vim.cmd('echomsg "Failed"')
-              vim.cmd('echohl None') -- reset the color
-            end
-          end
-        end
-      })
-      vim.fn.jobwait({job_id}, 0)
+      closeTerminal(command)
     end
   end
-
 end
-
+function closeTerminal(command)
+  -- close the terminal
+  if M.autoQuitOnSuccess == true then -- 0 has special case
+    local job_id = vim.fn.jobstart(command, {
+      on_exit = function(job_id, exit_code, _) -- callback function for the exit code
+        if exit_code == 0 then -- success!
+          -- check if window is terminal to avoid closing other windows
+          if vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and utils.hasOtherOpenBuffers() then
+            vim.cmd(':q') -- close the terminal window
+          end
+          if M.printOnSuccess then
+            vim.cmd('echohl Normal') -- set the color to normal
+            vim.cmd('echomsg "Success"')
+            vim.cmd('echohl None') -- reset the color
+          end
+        else
+          if M.autoQuitOnFailure and vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and utils.hasOtherOpenBuffers() then
+            vim.cmd(':q') -- close the terminal window
+          end
+          if M.printOnFailure then
+            vim.cmd('echohl Error') -- set the color to red
+            vim.cmd('echomsg "Failed"')
+            vim.cmd('echohl None') -- reset the color
+          end
+        end
+      end
+    })
+    vim.fn.jobwait({job_id}, 0)
+  end
+end
 function checkConfigs()
   if M.robot_directory == nil then
     print('robot_directory is not set')
