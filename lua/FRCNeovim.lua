@@ -93,7 +93,7 @@ function M.deployRobotCode()
     return
   end
   local predefined_commands = {
-    'terminal cd ' .. M.robot_directory .. ' && ./gradlew deploy -PteamNumber=' .. M.teamNumber .. ' --offline',
+    'cd ' .. M.robot_directory .. ' && ./gradlew deploy -PteamNumber=' .. M.teamNumber .. ' --offline',
   }
   if M.javaHome ~= nil then
     predefined_commands[1] = predefined_commands[1] .. ' -Dorg.gradle.java.home="' .. M.javaHome .. '"'
@@ -106,7 +106,7 @@ function M.buildRobotCode()
     return
   end
   local predefined_commands = {
-    'terminal cd ' .. M.robot_directory .. ' && ./gradlew build',
+    'cd ' .. M.robot_directory .. ' && ./gradlew build',
   }
   if M.javaHome ~= nil then
     predefined_commands[1] = predefined_commands[1] .. ' -Dorg.gradle.java.home="' .. M.javaHome .. '"'
@@ -160,7 +160,7 @@ end
 function closeTerminal(command)
   -- close the terminal
   if M.autoQuitOnSuccess == true then
-    local job_id = vim.fn.jobstart(command, {
+    local job_id = vim.fn.jobstart(command .. 'vsplit | terminal', {
       on_exit = function(job_id, exit_code, _) -- callback function for the exit code
         if exit_code == 0 then -- success!
           -- check if window is terminal to avoid closing other windows
