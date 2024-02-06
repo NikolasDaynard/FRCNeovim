@@ -120,7 +120,7 @@ function M.runCommands(predefined_commands, current_directory, current_file)
     print('Executing command:', command)
     -- Check if terminal_size is 0
     if M.terminal_size == 0 then
-      -- vim.cmd('terminal ' .. command) -- open terminal and run the command and override current
+      openTerminal()
 
       local job_id = vim.fn.termopen(command, {
         on_exit = function(job_id, exit_code, _) -- callback function for the exit code
@@ -143,12 +143,12 @@ function M.runCommands(predefined_commands, current_directory, current_file)
       })
       vim.fn.jobwait({job_id}, 0)
     else -- terminal_size is greater than half of the window width so open at half
-      openTerminal(command)
+      openTerminal()
       closeTerminal(command)
     end
   end
 end
-function openTerminal(command)
+function openTerminal()
   local width = vim.fn.winwidth(0)  -- Get current window width
   local windowCount = #vim.api.nvim_list_wins()
 
@@ -157,7 +157,6 @@ function openTerminal(command)
     
     if vim.api.nvim_buf_get_option(buf, 'buftype') == 'terminal' then
       vim.api.nvim_set_current_win(win)
-      vim.cmd('terminal ' .. command) -- terminal is already open so just run the command
       return
     end
   end
@@ -171,7 +170,7 @@ end
 function closeTerminal(command)
   -- close the terminal
   if M.autoQuitOnSuccess == true then
-    local job_id = vim.fn.jobstart(command, {
+    local job_id = vim.fn.termopen(command, {
       on_exit = function(job_id, exit_code, _) -- callback function for the exit code
         if exit_code == 0 then -- success!
           -- check if window is terminal to avoid closing other windows
