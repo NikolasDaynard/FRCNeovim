@@ -143,28 +143,18 @@ function M.runCommands(predefined_commands, current_directory, current_file)
       })
       vim.fn.jobwait({job_id}, 0)
     else -- terminal_size is greater than half of the window width so open at half
-      openTerminal()
+      -- openTerminal()
       closeTerminal(command)
     end
   end
 end
 function openTerminal()
   local width = vim.fn.winwidth(0)  -- Get current window width
-  local windowCount = #vim.api.nvim_list_wins()
 
-  for _, win in ipairs(vim.api.nvim_list_wins()) do
-    local buf = vim.api.nvim_win_get_buf(win)
-    
-    if vim.api.nvim_buf_get_option(buf, 'buftype') == 'terminal' then
-      vim.api.nvim_set_current_win(win)
-      return
-    end
-  end
-  
   if M.terminal_size < width / 2 then -- normal case
-    vim.cmd('vsplit | vertical resize ' .. M.terminal_size .. ' | terminal')
+    vim.cmd('vsplit | vertical resize ' .. M.terminal_size)
   else -- terminal_size is greater than half of the window width so open at half
-    vim.cmd('vsplit | terminal')
+    vim.cmd('vsplit')
   end
 end
 function closeTerminal(command)
