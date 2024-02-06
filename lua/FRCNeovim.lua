@@ -186,7 +186,7 @@ function closeTerminal(command)
   --     end
   --   })
   --   vim.fn.jobwait({job_id}, 0)
-  -- end
+  end
 end
 function checkConfigs()
   if M.robot_directory == nil then
