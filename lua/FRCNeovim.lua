@@ -162,7 +162,7 @@ function closeTerminal(command)
   if M.autoQuitOnSuccess == true then
     local job_id = vim.fn.jobstart(command, {
       on_stdout = function(_, data, _)
-        vim.cmd('echomsg "f"')
+        vim.cmd('echomsg "' .. data)
       end,
       on_exit = function(job_id, exit_code, _) -- callback function for the exit code
         if exit_code == 0 then -- success!
