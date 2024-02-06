@@ -122,7 +122,7 @@ function M.runCommands(predefined_commands, current_directory, current_file)
     if M.terminal_size == 0 then
       -- vim.cmd('terminal ' .. command) -- open terminal and run the command and override current
 
-      local job_id = vim.fn.jobstart('terminal ' .. command, {
+      local job_id = vim.fn.termopen(command, {
         on_exit = function(job_id, exit_code, _) -- callback function for the exit code
           if exit_code == 0 then
             -- Success and can go back to file
