@@ -160,32 +160,31 @@ end
 function closeTerminal(command)
   -- close the terminal
   if M.autoQuitOnSuccess == true then
-    print("Exit code:", vim.fn.systemlist('terminal ' .. command))
-  --   local job_id = vim.fn.jobstart(command, {
-  --     on_exit = function(job_id, exit_code, _) -- callback function for the exit code
-  --       if exit_code == 0 then -- success!
-  --         -- check if window is terminal to avoid closing other windows
-  --         if vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and utils.hasOtherOpenBuffers() then
-  --           vim.cmd(':q') -- close the terminal window
-  --         end
-  --         if M.printOnSuccess then
-  --           vim.cmd('echohl Normal') -- set the color to normal
-  --           vim.cmd('echomsg "Success"')
-  --           vim.cmd('echohl None') -- reset the color
-  --         end
-  --       else
-  --         if M.autoQuitOnFailure and vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and utils.hasOtherOpenBuffers() then
-  --           vim.cmd(':q') -- close the terminal window
-  --         end
-  --         if M.printOnFailure then
-  --           vim.cmd('echohl Error') -- set the color to red
-  --           vim.cmd('echomsg "Failed"')
-  --           vim.cmd('echohl None') -- reset the color
-  --         end
-  --       end
-  --     end
-  --   })
-  --   vim.fn.jobwait({job_id}, 0)
+    local job_id = vim.fn.jobstart("terminal " .. command, {
+      on_exit = function(job_id, exit_code, _) -- callback function for the exit code
+        if exit_code == 0 then -- success!
+          -- check if window is terminal to avoid closing other windows
+          if vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and utils.hasOtherOpenBuffers() then
+            vim.cmd(':q') -- close the terminal window
+          end
+          if M.printOnSuccess then
+            vim.cmd('echohl Normal') -- set the color to normal
+            vim.cmd('echomsg "Success"')
+            vim.cmd('echohl None') -- reset the color
+          end
+        else
+          if M.autoQuitOnFailure and vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and utils.hasOtherOpenBuffers() then
+            vim.cmd(':q') -- close the terminal window
+          end
+          if M.printOnFailure then
+            vim.cmd('echohl Error') -- set the color to red
+            vim.cmd('echomsg "Failed"')
+            vim.cmd('echohl None') -- reset the color
+          end
+        end
+      end
+    })
+    vim.fn.jobwait({job_id}, 0)
   end
 end
 function checkConfigs()
