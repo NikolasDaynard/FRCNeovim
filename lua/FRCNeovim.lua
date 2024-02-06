@@ -119,33 +119,8 @@ function M.runCommands(predefined_commands, current_directory, current_file)
   for _, command in ipairs(predefined_commands) do
     print('Executing command:', command)
     -- Check if terminal_size is 0
-    if M.terminal_size == 0 then
-      openTerminal()
-
-      local job_id = vim.fn.termopen(command, {
-        on_exit = function(job_id, exit_code, _) -- callback function for the exit code
-          if exit_code == 0 then
-            -- Success and can go back to file
-            if current_file ~= '' then
-              vim.cmd('edit ' .. current_file) -- open the file in a new buffer
-            else
-              vim.cmd('Explore ' .. current_directory) -- open the directory in a new buffer
-            end
-
-          else
-            if current_file ~= '' then
-              vim.cmd('vsplit | edit ' .. current_file) -- open the file in a new buffer
-            else
-              vim.cmd('vsplit | Explore ' .. current_directory) -- open the directory in a new buffer
-            end
-          end
-        end
-      })
-      vim.fn.jobwait({job_id}, 0)
-    else -- terminal_size is greater than half of the window width so open at half
-      openTerminal()
-      closeTerminal(command)
-    end
+    openTerminal()
+    closeTerminal(command)
   end
 end
 function openTerminal()
