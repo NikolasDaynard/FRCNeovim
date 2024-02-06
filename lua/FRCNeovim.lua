@@ -152,43 +152,41 @@ function openTerminal(command)
   local width = vim.fn.winwidth(0)  -- Get current window width
   
   if M.terminal_size < width / 2 then -- normal case
-    vim.cmd('vsplit')
+    -- vim.cmd('vsplit | vertical resize ' .. M.terminal_size .. ' | terminal ' .. command)
   else -- terminal_size is greater than half of the window width so open at half
-    vim.cmd('vsplit | terminal ' .. command)
+    -- vim.cmd('vsplit | terminal ' .. command)
   end
 end
 function closeTerminal(command)
   -- close the terminal
   if M.autoQuitOnSuccess == true then
-    local job_id = vim.fn.jobstart(command, {
-      on_stdout = function(_, data, _)
-        writeToBuffer(data)
-      end,
-      on_exit = function(job_id, exit_code, _) -- callback function for the exit code
-        if exit_code == 0 then -- success!
-          -- check if window is terminal to avoid closing other windows
-          if vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and utils.hasOtherOpenBuffers() then
-            vim.cmd(':q') -- close the terminal window
-          end
-          if M.printOnSuccess then
-            vim.cmd('echohl Normal') -- set the color to normal
-            vim.cmd('echomsg "Success"')
-            vim.cmd('echohl None') -- reset the color
-          end
-        else
-          if M.autoQuitOnFailure and vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and utils.hasOtherOpenBuffers() then
-            vim.cmd(':q') -- close the terminal window
-          end
-          if M.printOnFailure then
-            vim.cmd('echohl Error') -- set the color to red
-            vim.cmd('echomsg "Failed"')
-            vim.cmd('echohl None') -- reset the color
-          end
-        end
-      end
-    })
-    vim.fn.jobwait({job_id}, 0)
-  end
+    print("Exit code:", vim.fn.systemlist('terminal ' .. command))
+  --   local job_id = vim.fn.jobstart(command, {
+  --     on_exit = function(job_id, exit_code, _) -- callback function for the exit code
+  --       if exit_code == 0 then -- success!
+  --         -- check if window is terminal to avoid closing other windows
+  --         if vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and utils.hasOtherOpenBuffers() then
+  --           vim.cmd(':q') -- close the terminal window
+  --         end
+  --         if M.printOnSuccess then
+  --           vim.cmd('echohl Normal') -- set the color to normal
+  --           vim.cmd('echomsg "Success"')
+  --           vim.cmd('echohl None') -- reset the color
+  --         end
+  --       else
+  --         if M.autoQuitOnFailure and vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and utils.hasOtherOpenBuffers() then
+  --           vim.cmd(':q') -- close the terminal window
+  --         end
+  --         if M.printOnFailure then
+  --           vim.cmd('echohl Error') -- set the color to red
+  --           vim.cmd('echomsg "Failed"')
+  --           vim.cmd('echohl None') -- reset the color
+  --         end
+  --       end
+  --     end
+  --   })
+  --   vim.fn.jobwait({job_id}, 0)
+  -- end
 end
 function checkConfigs()
   if M.robot_directory == nil then
@@ -200,18 +198,6 @@ function checkConfigs()
     return false
   end
   return true
-end
-function writeToBuffer(data)
-  -- Get the current buffer number
-  local current_bufnr = vim.fn.bufnr('%')
-
-  -- Check if the buffer is valid and modifiable
-  if current_bufnr ~= 0 and vim.fn.getbufvar(current_bufnr, '&modifiable') == 1 then
-    -- Append the data to the buffer
-    vim.api.nvim_buf_set_lines(current_bufnr, -1, -1, false, vim.split(data, "\n"))
-  else
-    print("Buffer is not valid or not modifiable")
-  end
 end
 -- Define the commands with the predefined set of commands
 vim.cmd([[command! DeployRobotCode lua require'FRCNeovim'.deployRobotCode()]])
