@@ -150,9 +150,16 @@ function M.runCommands(predefined_commands, current_directory, current_file)
 end
 function openTerminal(command)
   local width = vim.fn.winwidth(0)  -- Get current window width
-  if vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' then
-    vim.cmd('terminal ' .. command) -- terminal is already open so just run the command
-    return
+  local windowCount = #vim.api.nvim_list_wins()
+
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    
+    if vim.api.nvim_buf_get_option(buf, 'buftype') == 'terminal' then
+      vim.api.nvim_set_current_win(win)
+      vim.cmd('terminal ' .. command) -- terminal is already open so just run the command
+      return
+    end
   end
   
   if M.terminal_size < width / 2 then -- normal case
