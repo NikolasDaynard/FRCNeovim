@@ -143,24 +143,22 @@ function M.runCommands(predefined_commands, current_directory, current_file)
       })
       vim.fn.jobwait({job_id}, 0)
     else -- terminal_size is greater than half of the window width so open at half
-      -- openTerminal()
+      openTerminal()
       closeTerminal(command)
     end
   end
 end
 function openTerminal()
   local width = vim.fn.winwidth(0)  -- Get current window width
-
   if M.terminal_size < width / 2 then -- normal case
-    vim.cmd('vsplit | vertical resize ' .. M.terminal_size)
+    vim.cmd('vsplit | vertical resize ' .. M.terminal_size .. ' | terminal')
   else -- terminal_size is greater than half of the window width so open at half
-    vim.cmd('vsplit')
+    vim.cmd('vsplit | terminal')
   end
 end
 function closeTerminal(command)
   -- close the terminal
   if M.autoQuitOnSuccess == true then
-    vim.cmd('terminal')
     local job_id = vim.fn.termopen(command, {
       on_exit = function(job_id, exit_code, _) -- callback function for the exit code
         if exit_code == 0 then -- success!
