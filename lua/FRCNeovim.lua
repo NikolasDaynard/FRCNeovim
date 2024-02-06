@@ -161,9 +161,10 @@ function closeTerminal(command)
   -- close the terminal
   if M.autoQuitOnSuccess == true then
     local job_id = vim.fn.jobstart(command, {
-      stdout_buffered = true, on_stdout = function(job_id, data)
-        vim.print(data) 
-      end
+      stdout_buffered = true,
+      on_stdout = function(_, data, _)
+        vim.api.nvim_out_write(data)
+      end,
       on_exit = function(job_id, exit_code, _) -- callback function for the exit code
         if exit_code == 0 then -- success!
           -- check if window is terminal to avoid closing other windows
