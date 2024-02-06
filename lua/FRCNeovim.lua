@@ -152,7 +152,7 @@ function openTerminal(command)
   local width = vim.fn.winwidth(0)  -- Get current window width
   
   if M.terminal_size < width / 2 then -- normal case
-    vim.cmd('vsplit | vertical resize ' .. M.terminal_size)
+    vim.cmd('vsplit | vertical resize ' .. M.terminal_size .. ' :| terminal')
   else -- terminal_size is greater than half of the window width so open at half
     vim.cmd('vsplit')
   end
