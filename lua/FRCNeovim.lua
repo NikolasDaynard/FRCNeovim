@@ -150,6 +150,10 @@ function M.runCommands(predefined_commands, current_directory, current_file)
 end
 function openTerminal(command)
   local width = vim.fn.winwidth(0)  -- Get current window width
+  if vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' then
+    vim.cmd('terminal ' .. command) -- terminal is already open so just run the command
+    return
+  end
   
   if M.terminal_size < width / 2 then -- normal case
     vim.cmd('vsplit | vertical resize ' .. M.terminal_size .. ' | terminal ' .. command)
