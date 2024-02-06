@@ -143,7 +143,7 @@ function M.runCommands(predefined_commands, current_directory, current_file)
       })
       vim.fn.jobwait({job_id}, 0)
     else -- terminal_size is greater than half of the window width so open at half
-      openTerminal()
+      -- openTerminal()
       closeTerminal(command)
     end
   end
