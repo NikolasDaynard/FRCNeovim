@@ -81,9 +81,10 @@ function M.runCommands(predefined_commands, current_directory, current_file)
   for _, command in ipairs(predefined_commands) do
     print('Executing command:', command)
     openTerminal()
-    if M.saveOnBuild then
-      vim.cmd(':wa') -- save all files
-    end
+    -- if M.saveOnBuild then
+    --   vim.cmd(':wa') -- save all files
+    -- end
+    utils.saveUnsavedFilesInDirectory(current_directory)
     runTerminal(command)
   end
 end
