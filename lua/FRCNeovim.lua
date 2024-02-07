@@ -87,12 +87,15 @@ function M.runCommands(predefined_commands, current_directory, current_file)
 end
 -- This does not open a real terminal, but a buffer called term, so I can call termopen
 function openTerminal()
-  local width = vim.fn.winwidth(0)  -- Get current window width
-
   -- We need an unmodified buffer
+
+  -- If a terminal is open close it
   if utils.isOpenBufferATerminal() then
     vim.cmd(':q')
   end
+
+  -- This has to be after closing for accuracy
+  local width = vim.fn.winwidth(0)  -- Get current window width
 
   if M.terminal_size < width / 2 then -- normal case
     vim.cmd('vsplit | vertical resize ' .. M.terminal_size .. ' | e term')
