@@ -3,90 +3,47 @@
 local M = {}
 
 local utils = require'utils'
+local utils = require'vendorDep'
 
 function M.setup(options)
   -- Variable for the size of the opened terminal
   -- 60 works pretty good for the debug logs
   M.terminal_size = options.terminal_size or M.terminal_size or 60
+  -- Variable for the size of the terminal when the build fails
+  -- It can be useful to see more
+  M.terminal_sizeOnFailure = options.terminal_size or 80
+
   -- Directory where the robot code is located
   M.robot_directory = options.robot_directory or M.robot_directory
+
   -- Whether to quit the terminal on success
   M.autoQuitOnSuccess = options.autoQuitOnSuccess
   if M.autoQuitOnSuccess == nil then
     M.autoQuitOnSuccess = true
   end
+
   -- Whether to quit the terminal on failure NOTE: This is only used if autoQuitOnSuccess is true
   -- An error message will still be printed
   M.autoQuitOnFailure = options.autoQuitOnFailure
   if M.autoQuitOnFailure == nil then
     M.autoQuitOnFailure = false
   end
+
   M.printOnSuccess = options.printOnSuccess
   if M.printOnSuccess == nil then
     M.printOnSuccess = true
   end
+
   M.printOnFailure = options.printOnFailure
   if M.printOnFailure == nil then
     M.printOnFailure = true
   end
+
   M.teamNumber = options.teamNumber or M.teamNumber
+
   -- Java home for the robot code optional if you have the environment variable set
   M.javaHome = options.javaHome or M.javaHome
 end
-
-function M.addVendorDep(link)
-  if checkConfigs() == false then
-    return
-  end
-  -- check last 5 characters of the link for .json
-  if string.sub(link, -5) ~= ".json" then
-    if not utils.yesNoPrompt("The link does not end in .json, are you sure you want to continue?") then
-      return
-    end
-  end
-
-  if isCurlAvailable() == false then
-    vim.cmd('echohl Error') -- set the color to normal
-    vim.cmd('echomsg ". Curl is not avalible"')
-    vim.cmd('echohl None') -- reset the color
-    return
-  end
-
-  local command = "curl -s " .. link
-  local handle = io.popen(command)
-  local result = handle:read("*a")
-  handle:close()
-
-  local startPos, endPos = string.find(result, 'fileName')
-
-  if startPos == nil then
-    vim.cmd('echohl Error') -- set the color to normal
-    vim.cmd('echomsg ". Filename not found in the json file, it is very likely the link is bad"')
-    vim.cmd('echohl None') -- reset the color
-    return
-  end
-  local name = ''
-  -- Iterate forward through the link from endPos to the end of the string
-  -- 12 is the length of fileName": "
-  for i = startPos + 12, #result do
-    -- If it sees a quote, then break
-    if string.sub(result, i, i) == '"' then
-        break
-    end
-    -- Add character to the name
-    name = name .. string.sub(result, i, i)
-  end
-
-  print(name)
-
-  -- open the file in a new buffer
-  vim.cmd('vsplit | :e ' .. M.robot_directory .. 'vendordeps/' .. name)
-  -- split the result by new line and set the lines
-  vim.fn.setline(1, vim.fn.split(result, "\n"))
-  -- save the file and quit
-  vim.cmd(':wq')
-end
-
 
 function M.deployRobotCode()
   if checkConfigs() == false then
