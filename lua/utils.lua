@@ -18,7 +18,7 @@ end
 
 function M.isOpenBufferATerminal()
   local buffer_name = vim.api.nvim_buf_get_name(0)
-  return string.find(buffer_name, 'term')
+  return string.find(buffer_name, 'gradlew')
 end
 
 function M.yesNoPrompt(question)
@@ -53,7 +53,7 @@ end
 
 function M.closeAllOpenTerminals() -- WIP
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    if string.find(string.lower(vim.api.nvim_buf_get_name(buf)), 'term') and M.hasOtherOpenBuffers() and vim.api.nvim_buf_get_name(buf) then
+    if string.find(string.lower(vim.api.nvim_buf_get_name(buf)), 'gradlew') and M.hasOtherOpenBuffers() and vim.api.nvim_buf_get_name(buf) then
       vim.cmd(':q')
     end
   end
