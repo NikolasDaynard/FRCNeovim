@@ -85,6 +85,7 @@ function M.runCommands(predefined_commands, current_directory, current_file)
     runTerminal(command)
   end
 end
+
 -- This does not open a real terminal, but a buffer called term, so I can call termopen
 function openTerminal()
   -- We need an unmodified buffer
@@ -102,6 +103,7 @@ function openTerminal()
   else -- terminal_size is greater than half of the window width so open at half
     vim.cmd('vsplit | e term')
   end
+  -- not sure if this is needed but I do it just in case
   vim.api.nvim_buf_set_name(0, 'term')
 end
 
@@ -119,7 +121,7 @@ end
 function closeTerminal(exit_code)
   if exit_code == 0 then -- success!
     -- check if window is terminal to avoid closing other windows
-    if vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and utils.hasOtherOpenBuffers() then
+    if utils.isOpenBufferATerminal() and utils.hasOtherOpenBuffers() then
       vim.cmd(':q') -- close the terminal window
     end
     if M.printOnSuccess then
