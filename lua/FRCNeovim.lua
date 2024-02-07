@@ -11,7 +11,7 @@ function M.setup(options)
   M.terminal_size = options.terminal_size or M.terminal_size or 60
   -- Variable for the size of the terminal when the build fails
   -- It can be useful to see more
-  M.terminal_sizeOnFailure = options.terminal_sizeOnFailure or 80
+  M.terminal_sizeOnFailure = options.terminal_sizeOnFailure or 60
 
   -- Directory where the robot code is located
   M.robot_directory = options.robot_directory or M.robot_directory
