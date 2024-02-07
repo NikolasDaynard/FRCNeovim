@@ -184,3 +184,17 @@ require'nvim-treesitter.configs'.setup {
     -- Other treesitter configurations as needed
 }
 ```
+
+TODO:
+
+Make save files in directory work
+
+Add riolog
+
+Add hotkeys for limelight and photovision
+
+Add WPILIB tool opening
+
+Add WPILIB create command/subsystem
+
+Docs?
