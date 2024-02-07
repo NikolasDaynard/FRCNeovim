@@ -49,10 +49,9 @@ end
 
 function getBufferDirectory(buf)
   -- Get the full path of the buffer's file
-  local buffer_path = vim.api.nvim_buf_get_name(buf)
-  -- Extract the directory part from the path
-  local buffer_directory = vim.fn.fnamemodify(buffer_path, ':p:h')
-  return buffer_directory
+  local buffer_path = vim.fn.expand(vim.api.nvim_buf_get_name(buf))
+  print(buffer_path)
+  return buffer_path
 end
 
 return M
