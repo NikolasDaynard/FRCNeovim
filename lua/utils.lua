@@ -19,7 +19,7 @@ end
 function M.isOpenBufferATerminal()
   local current_buffer = vim.api.nvim_get_current_buf()
   local buffer_name = vim.api.nvim_buf_get_name(current_buffer)
-  return buffer_name == 'term'
+  return buffer_name == 'term://.'
 end
 
 function M.yesNoPrompt(question)
