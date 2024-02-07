@@ -81,6 +81,7 @@ function M.runCommands(predefined_commands, current_directory, current_file)
   for _, command in ipairs(predefined_commands) do
     print('Executing command:', command)
     openTerminal()
+    utils.saveUnsavedFilesInDirectory()
     runTerminal(command)
   end
 end
@@ -98,7 +99,6 @@ function openTerminal()
   else -- terminal_size is greater than half of the window width so open at half
     vim.cmd('vsplit | e term')
   end
-  utils.saveUnsavedFilesInDirectory()
 end
 
 function runTerminal(command)
