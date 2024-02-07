@@ -18,7 +18,7 @@ end
 
 function M.isOpenBufferATerminal() -- broken
   local buffer_name = vim.api.nvim_buf_get_name(0)
-  return buffer_name == 'term'
+  return string.find(buffer_name, 'term://')
 end
 
 function M.yesNoPrompt(question)
