@@ -81,7 +81,7 @@ function M.runCommands(predefined_commands, current_directory, current_file)
   for _, command in ipairs(predefined_commands) do
     print('Executing command:', command)
     openTerminal()
-    utils.saveUnsavedFilesInDirectory()
+    utils.saveUnsavedFilesInDirectory(M.robot_directory)
     runTerminal(command)
   end
 end
