@@ -89,7 +89,7 @@ function openTerminal()
   end
 end
 
-function runTerminal()
+function runTerminal(command)
   if M.autoQuitOnSuccess == true then
     local job_id = vim.fn.termopen(command, {
       on_exit = function(job_id, exit_code, _) -- callback function for the exit code
