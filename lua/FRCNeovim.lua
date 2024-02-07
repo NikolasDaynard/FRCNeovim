@@ -91,7 +91,7 @@ function openTerminal()
 
   -- We need an unmodified buffer
   if utils.isOpenBufferATerminal() then
-    vim.cmp(':q')
+    vim.cmd(':q')
   end
 
   if M.terminal_size < width / 2 then -- normal case

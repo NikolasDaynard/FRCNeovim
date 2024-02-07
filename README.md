@@ -187,8 +187,6 @@ require'nvim-treesitter.configs'.setup {
 
 TODO:
 
-Make save files in directory work
-
 Add riolog
 
 Add hotkeys for limelight and photovision
