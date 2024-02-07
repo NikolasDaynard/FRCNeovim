@@ -43,6 +43,8 @@ To configure it, in lua,
 ```lua
 require'FRCNeovim'.setup{
   terminal_size = 60,
+  terminal_sizeOnFailure = 60,
+  saveOnBuild = true,
   robot_directory = '~/swerve2024/', -- necessary 
   autoQuitOnSuccess = true,
   autoQuitOnFailure = false,
@@ -57,6 +59,8 @@ in vim,
 ```vim
 call FRCNeovim#setup({
   \ 'terminal_size': 60,
+  \ 'terminal_sizeOnFailure': 60,
+  \ 'saveOnBuild': 1,
   \ 'robot_directory': '~/swerve2024/', " necessary
   \ 'autoQuitOnSuccess': 1,
   \ 'autoQuitOnFailure': 1,

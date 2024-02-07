@@ -16,6 +16,11 @@ function M.setup(options)
   -- Directory where the robot code is located
   M.robot_directory = options.robot_directory or M.robot_directory
 
+  M.saveOnBuild = options.saveOnBuild
+  if M.saveOnBuild == nil then
+    M.saveOnBuild = true
+  end
+
   -- Whether to quit the terminal on success
   M.autoQuitOnSuccess = options.autoQuitOnSuccess
   if M.autoQuitOnSuccess == nil then
@@ -82,11 +87,18 @@ end
 -- This does not open a real terminal, but a buffer called term, so I can call termopen
 function openTerminal()
   local width = vim.fn.winwidth(0)  -- Get current window width
+
+  -- We need an unmodified buffer
+  if utils.isOpenBufferATerminal()
+    vim.cmp(':q')
+  end
+
   if M.terminal_size < width / 2 then -- normal case
     vim.cmd('vsplit | vertical resize ' .. M.terminal_size .. ' | e term')
   else -- terminal_size is greater than half of the window width so open at half
     vim.cmd('vsplit | e term')
   end
+  utils.saveUnsavedFilesInDirectory()
 end
 
 function runTerminal(command)
