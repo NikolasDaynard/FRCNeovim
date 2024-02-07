@@ -51,9 +51,9 @@ function getBufferDirectory(buf)
   return string.lower(buffer_path) -- format
 end
 
-function closeAllOpenTerminals()
+function M.closeAllOpenTerminals()
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    if string.find(string.lower(vim.api.nvim_buf_get_name(buf)), 'term://') and hasOtherOpenBuffers() then
+    if string.find(string.lower(vim.api.nvim_buf_get_name(buf)), 'term://') and M.hasOtherOpenBuffers() then
       vim.cmd(':q')
     end
   end
