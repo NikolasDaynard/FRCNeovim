@@ -84,7 +84,7 @@ function M.runCommands(predefined_commands, current_directory, current_file)
     -- if M.saveOnBuild then
     --   vim.cmd(':wa') -- save all files
     -- end
-    utils.saveUnsavedFilesInDirectory(current_directory)
+    utils.saveUnsavedFilesInDirectory(M.robot_directory)
     runTerminal(command)
   end
 end
