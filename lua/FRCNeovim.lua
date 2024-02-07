@@ -3,7 +3,7 @@
 local M = {}
 
 local utils = require'utils'
-local utils = require'vendorDep'
+local vendorDep = require'vendorDep'
 
 function M.setup(options)
   -- Variable for the size of the opened terminal
@@ -133,7 +133,7 @@ end
 vim.cmd([[command! DeployRobotCode lua require'FRCNeovim'.deployRobotCode()]])
 vim.cmd([[command! BuildRobotCode lua require'FRCNeovim'.buildRobotCode()]])
 
-vim.cmd("command! -nargs=1 AddVendorDep lua require'FRCNeovim'.addVendorDep(<f-args>)")
+vim.cmd("command! -nargs=1 AddVendorDep lua require'vendorDep'.addVendorDep(<f-args>)")
 
 -- help command
 vim.cmd([[command! -nargs=0 FRCNeovimHelp :help FRCNeovim]])
