@@ -165,6 +165,7 @@ vim.cmd([[command! DeployRobotCode lua require'FRCNeovim'.deployRobotCode()]])
 vim.cmd([[command! BuildRobotCode lua require'FRCNeovim'.buildRobotCode()]])
 
 vim.cmd("command! -nargs=1 AddVendorDep lua require'vendorDep'.addVendorDep(<f-args>)")
+vim.cmd([[command! CloseAllOpenTerminals lua require'utils'.closeAllOpenTerminals()]])
 
 -- help command
 vim.cmd([[command! -nargs=0 FRCNeovimHelp :help FRCNeovim]])
