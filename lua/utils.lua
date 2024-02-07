@@ -31,12 +31,12 @@ function isCurlAvailable()
   return vim.fn.executable('curl') == 1
 end
 
-function M.saveUnsavedFilesInDirectory()
+function M.saveUnsavedFilesInDirectory(directory)
   -- check all buffers in the current directory
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
     if vim.api.nvim_buf_get_option(buf, 'modified') then
-      -- save
-      print(getBufferDirectory(buf))
+      -- check if the buffer is in the directory
+      vim.cmd('echohl ' .. getBufferDirectory(buf))
       vim.api.nvim_buf_call(buf, function()
         -- vim.cmd(':w')
       end)
