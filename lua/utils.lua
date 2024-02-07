@@ -38,6 +38,7 @@ function M.saveUnsavedFilesInDirectory(directory)
     if vim.api.nvim_buf_get_option(buf, 'modified') then
       -- check if the buffer contains the current directory
       if(string.find(getBufferDirectory(buf), vim.fn.expand(directory))) then
+        print(vim.fn.expand(directory))
         -- save the buffer
         vim.api.nvim_buf_call(buf, function()
           vim.cmd(':w')
