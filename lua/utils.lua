@@ -50,7 +50,6 @@ end
 function getBufferDirectory(buf)
   -- Get the full path of the buffer's file
   local buffer_path = vim.fn.expand(vim.api.nvim_buf_get_name(buf))
-  print(string.lower(buffer_path) .. ' & ' .. string.lower(vim.fn.expand('~/swerve2024/')))
   return string.lower(buffer_path) -- format
 end
 
