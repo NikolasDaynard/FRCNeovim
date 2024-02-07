@@ -136,7 +136,7 @@ function closeTerminal(exit_code)
       -- resize to failure size if we have not quit and set name term
       if utils.isOpenBufferATerminal() then
         vim.cmd('vertical resize ' .. M.terminal_sizeOnFailure)
-        vim.api.nvim_buf_set_name(0, 'term')
+        vim.api.nvim_buf_set_name(0, 'term' .. vim.api.nvim_buf_get_name(0))
       end
     end
     if M.printOnFailure then
