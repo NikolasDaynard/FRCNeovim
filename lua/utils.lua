@@ -53,7 +53,7 @@ end
 
 function M.closeAllOpenTerminals() -- WIP
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    if string.find(string.lower(vim.api.nvim_buf_get_name(buf)), 'term://') and M.hasOtherOpenBuffers() and vim.api.nvim_buf_get_name(buf) ~= nil then
+    if string.find(string.lower(vim.api.nvim_buf_get_name(buf)), 'term://') and M.hasOtherOpenBuffers() and vim.api.nvim_buf_get_name(buf) then
       vim.cmd(':q')
     end
   end
