@@ -11,10 +11,15 @@ function M.setup(options)
   M.terminal_size = options.terminal_size or M.terminal_size or 60
   -- Variable for the size of the terminal when the build fails
   -- It can be useful to see more
-  M.terminal_sizeOnFailure = options.terminal_sizeOnFailure or 80
+  M.terminal_sizeOnFailure = options.terminal_sizeOnFailure or 60
 
   -- Directory where the robot code is located
   M.robot_directory = options.robot_directory or M.robot_directory
+
+  M.saveOnBuild = options.saveOnBuild
+  if M.saveOnBuild == nil then
+    M.saveOnBuild = true
+  end
 
   -- Whether to quit the terminal on success
   M.autoQuitOnSuccess = options.autoQuitOnSuccess
@@ -76,12 +81,21 @@ function M.runCommands(predefined_commands, current_directory, current_file)
   for _, command in ipairs(predefined_commands) do
     print('Executing command:', command)
     openTerminal()
+    if M.saveOnBuild then
+      vim.cmd(':wa') -- save all files
+    end
     runTerminal(command)
   end
 end
 -- This does not open a real terminal, but a buffer called term, so I can call termopen
 function openTerminal()
   local width = vim.fn.winwidth(0)  -- Get current window width
+
+  -- We need an unmodified buffer
+  if utils.isOpenBufferATerminal() then
+    vim.cmp(':q')
+  end
+
   if M.terminal_size < width / 2 then -- normal case
     vim.cmd('vsplit | vertical resize ' .. M.terminal_size .. ' | e term')
   else -- terminal_size is greater than half of the window width so open at half
