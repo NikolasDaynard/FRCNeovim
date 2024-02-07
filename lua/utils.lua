@@ -38,7 +38,6 @@ function M.saveUnsavedFilesInDirectory(directory)
     if vim.api.nvim_buf_get_option(buf, 'modified') then
       -- check if the buffer contains the current directory
       if(string.find(getBufferDirectory(buf), vim.fn.expand(directory))) then
-        print(vim.fn.expand(directory))
         -- save the buffer
         vim.api.nvim_buf_call(buf, function()
           vim.cmd(':w')
@@ -51,7 +50,7 @@ end
 function getBufferDirectory(buf)
   -- Get the full path of the buffer's file
   local buffer_path = vim.fn.expand(vim.api.nvim_buf_get_name(buf))
-  print(buffer_path)
+  print(buffer_path .. ' & ' .. vim.fn.expand('~/swerve2024/'))
   return buffer_path
 end
 
