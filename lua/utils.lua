@@ -31,7 +31,7 @@ function isCurlAvailable()
   return vim.fn.executable('curl') == 1
 end
 
-function saveUnsavedFilesInDirectory()
+function M.saveUnsavedFilesInDirectory()
   -- check all buffers in the current directory
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
     if vim.api.nvim_buf_get_option(buf, 'modified') then
