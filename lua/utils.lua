@@ -16,10 +16,9 @@ function M.hasOtherOpenBuffers()
   return false  -- No other open buffers found
 end
 
-function M.isOpenBufferATerminal() -- broken
-  local current_buffer = vim.api.nvim_get_current_buf()
-  local buffer_name = vim.api.nvim_buf_get_name(current_buffer)
-  return buffer_name == 'term://.'
+function M.isOpenBufferATerminal()
+  local buffer_name = vim.api.nvim_buf_get_name(0)
+  return string.find(buffer_name, 'term://')
 end
 
 function M.yesNoPrompt(question)
@@ -31,7 +30,6 @@ function isCurlAvailable()
   return vim.fn.executable('curl') == 1
 end
 
--- WIP
 function M.saveUnsavedFilesInDirectory(directory)
   -- check all buffers in the current directory
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do

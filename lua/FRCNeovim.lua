@@ -85,20 +85,25 @@ function M.runCommands(predefined_commands, current_directory, current_file)
     runTerminal(command)
   end
 end
+
 -- This does not open a real terminal, but a buffer called term, so I can call termopen
 function openTerminal()
-  local width = vim.fn.winwidth(0)  -- Get current window width
-
   -- We need an unmodified buffer
-  if utils.isOpenBufferATerminal() then
-    vim.cmp(':q')
+
+  -- If a terminal is open close it
+  if utils.isOpenBufferATerminal() and utils.hasOtherOpenBuffers() then
+    vim.cmd(':q')
   end
+
+  -- This has to be after closing for accuracy
+  local width = vim.fn.winwidth(0)  -- Get current window width
 
   if M.terminal_size < width / 2 then -- normal case
     vim.cmd('vsplit | vertical resize ' .. M.terminal_size .. ' | e term')
   else -- terminal_size is greater than half of the window width so open at half
     vim.cmd('vsplit | e term')
   end
+  -- not sure if this is needed but I do it just in case
   vim.api.nvim_buf_set_name(0, 'term')
 end
 
@@ -116,7 +121,7 @@ end
 function closeTerminal(exit_code)
   if exit_code == 0 then -- success!
     -- check if window is terminal to avoid closing other windows
-    if vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and utils.hasOtherOpenBuffers() then
+    if utils.isOpenBufferATerminal() and utils.hasOtherOpenBuffers() then
       vim.cmd(':q') -- close the terminal window
     end
     if M.printOnSuccess then
@@ -127,11 +132,13 @@ function closeTerminal(exit_code)
 
   else -- failure
 
-    if M.autoQuitOnFailure and vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and utils.hasOtherOpenBuffers() then
+    if M.autoQuitOnFailure and utils.isOpenBufferATerminal() and utils.hasOtherOpenBuffers() then
       vim.cmd(':q') -- close the terminal window
     else
       -- resize to failure size if we have not quit
-      vim.cmd('vertical resize ' .. M.terminal_sizeOnFailure)
+      if utils.isOpenBufferATerminal() then
+        vim.cmd('vertical resize ' .. M.terminal_sizeOnFailure)
+      end
     end
     if M.printOnFailure then
       vim.cmd('echohl Error') -- set the color to red
