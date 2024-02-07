@@ -37,7 +37,7 @@ function M.saveUnsavedFilesInDirectory(directory)
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
     if vim.api.nvim_buf_get_option(buf, 'modified') then
       -- check if the buffer contains the current directory
-      if(string.find(getBufferDirectory(buf), directory)) then
+      if(string.find(getBufferDirectory(buf), string.lower(vim.fn.expand(directory)))) then
         -- save the buffer
         vim.api.nvim_buf_call(buf, function()
           vim.cmd(':w')
@@ -49,10 +49,8 @@ end
 
 function getBufferDirectory(buf)
   -- Get the full path of the buffer's file
-  local buffer_path = vim.api.nvim_buf_get_name(buf)
-  -- Extract the directory part from the path
-  local buffer_directory = vim.fn.fnamemodify(buffer_path, ':p:h')
-  return buffer_directory
+  local buffer_path = vim.fn.expand(vim.api.nvim_buf_get_name(buf))
+  return string.lower(buffer_path) -- format
 end
 
 return M

@@ -81,9 +81,7 @@ function M.runCommands(predefined_commands, current_directory, current_file)
   for _, command in ipairs(predefined_commands) do
     print('Executing command:', command)
     openTerminal()
-    if M.saveOnBuild then
-      vim.cmd(':wa') -- save all files
-    end
+    utils.saveUnsavedFilesInDirectory(M.robot_directory)
     runTerminal(command)
   end
 end
@@ -101,6 +99,7 @@ function openTerminal()
   else -- terminal_size is greater than half of the window width so open at half
     vim.cmd('vsplit | e term')
   end
+  vim.api.nvim_buf_set_name(0, 'term')
 end
 
 function runTerminal(command)
