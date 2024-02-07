@@ -89,7 +89,7 @@ function openTerminal()
   local width = vim.fn.winwidth(0)  -- Get current window width
 
   -- We need an unmodified buffer
-  if utils.isOpenBufferATerminal()
+  if utils.isOpenBufferATerminal() then
     vim.cmp(':q')
   end
 
