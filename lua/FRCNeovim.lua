@@ -11,7 +11,7 @@ function M.setup(options)
   M.terminal_size = options.terminal_size or M.terminal_size or 60
   -- Variable for the size of the terminal when the build fails
   -- It can be useful to see more
-  M.terminal_sizeOnFailure = options.terminal_size or 80
+  M.terminal_sizeOnFailure = options.terminal_sizeOnFailure or 80
 
   -- Directory where the robot code is located
   M.robot_directory = options.robot_directory or M.robot_directory
@@ -111,9 +111,14 @@ function closeTerminal(exit_code)
       vim.cmd('echomsg "Success"')
       vim.cmd('echohl None') -- reset the color
     end
+
   else -- failure
+    
     if M.autoQuitOnFailure and vim.api.nvim_buf_get_option(0, 'buftype') == 'terminal' and utils.hasOtherOpenBuffers() then
       vim.cmd(':q') -- close the terminal window
+    else
+      -- resize to failure size if we have not quit
+      vim.cmd('vertical resize .. 'M.terminal_sizeOnFailure)
     end
     if M.printOnFailure then
       vim.cmd('echohl Error') -- set the color to red
