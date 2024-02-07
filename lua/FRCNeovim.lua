@@ -103,8 +103,6 @@ function openTerminal()
   else -- terminal_size is greater than half of the window width so open at half
     vim.cmd('vsplit | e term')
   end
-  -- not sure if this is needed but I do it just in case
-  vim.api.nvim_buf_set_name(0, 'term')
 end
 
 function runTerminal(command)
@@ -145,6 +143,8 @@ function closeTerminal(exit_code)
       vim.cmd('echomsg "Failed"')
       vim.cmd('echohl None') -- reset the color
     end
+    -- not sure if this is needed but I do it just in case
+    vim.api.nvim_buf_set_name(0, 'term')
   end
 end
 
@@ -165,7 +165,7 @@ vim.cmd([[command! DeployRobotCode lua require'FRCNeovim'.deployRobotCode()]])
 vim.cmd([[command! BuildRobotCode lua require'FRCNeovim'.buildRobotCode()]])
 
 vim.cmd("command! -nargs=1 AddVendorDep lua require'vendorDep'.addVendorDep(<f-args>)")
-vim.cmd([[command! CloseAllOpenTerminals lua require'utils'.closeAllOpenTerminals()]])
+-- vim.cmd([[command! CloseAllOpenTerminals lua require'utils'.closeAllOpenTerminals()]])
 
 -- help command
 vim.cmd([[command! -nargs=0 FRCNeovimHelp :help FRCNeovim]])
