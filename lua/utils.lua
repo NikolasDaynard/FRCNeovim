@@ -16,7 +16,7 @@ function M.hasOtherOpenBuffers()
   return false  -- No other open buffers found
 end
 
-function M.isOpenBufferATerminal()
+function M.isOpenBufferATerminal() -- broken
   local current_buffer = vim.api.nvim_get_current_buf()
   local buffer_name = vim.api.nvim_buf_get_name(current_buffer)
   return buffer_name == 'term://.'
@@ -35,11 +35,13 @@ function M.saveUnsavedFilesInDirectory(directory)
   -- check all buffers in the current directory
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
     if vim.api.nvim_buf_get_option(buf, 'modified') then
-      -- check if the buffer is in the directory
-      vim.cmd('echohl ' .. getBufferDirectory(buf))
-      vim.api.nvim_buf_call(buf, function()
-        -- vim.cmd(':w')
-      end)
+      -- check if the buffer contains the current directory
+      if(string.find(getBufferDirectory(buf), directory)) then
+        -- save the buffer
+        vim.api.nvim_buf_call(buf, function()
+          vim.cmd(':w')
+        end)
+      end
     end
   end
 end
