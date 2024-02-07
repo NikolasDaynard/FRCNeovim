@@ -91,7 +91,9 @@ function openTerminal()
   -- We need an unmodified buffer
 
   -- If a terminal is open close it
-  utils.closeAllOpenTerminals()
+  if utils.isOpenBufferATerminal() and utils.hasOtherOpenBuffers() then
+    vim.cmd(':q')
+  end
 
   -- This has to be after closing for accuracy
   local width = vim.fn.winwidth(0)  -- Get current window width
