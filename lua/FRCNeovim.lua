@@ -102,7 +102,7 @@ function openTerminal()
   else -- terminal_size is greater than half of the window width so open at half
     vim.cmd('vsplit | e term')
   end
-  nvim_buf_set_name(0, 'term')
+  vim.api.nvim_buf_set_name(0, 'term')
 end
 
 function runTerminal(command)
