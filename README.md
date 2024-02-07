@@ -198,3 +198,5 @@ Add WPILIB tool opening
 Add WPILIB create command/subsystem
 
 Docs?
+
+Fix check for open terminal buffer
