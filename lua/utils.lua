@@ -16,7 +16,7 @@ function M.hasOtherOpenBuffers()
   return false  -- No other open buffers found
 end
 
-function M.isOpenBufferATerminal() -- broken
+function M.isOpenBufferATerminal()
   local buffer_name = vim.api.nvim_buf_get_name(0)
   return string.find(buffer_name, 'term://')
 end

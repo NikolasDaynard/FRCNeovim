@@ -90,7 +90,7 @@ function openTerminal()
   -- We need an unmodified buffer
 
   -- If a terminal is open close it
-  if utils.isOpenBufferATerminal() then
+  if utils.isOpenBufferATerminal() and utils.hasOtherOpenBuffers() then
     vim.cmd(':q')
   end
 
