@@ -103,8 +103,6 @@ function openTerminal()
   else -- terminal_size is greater than half of the window width so open at half
     vim.cmd('vsplit | e term')
   end
-  -- not sure if this is needed but I do it just in case
-  vim.api.nvim_buf_set_name(0, 'term')
 end
 
 function runTerminal(command)
@@ -135,9 +133,10 @@ function closeTerminal(exit_code)
     if M.autoQuitOnFailure and utils.isOpenBufferATerminal() and utils.hasOtherOpenBuffers() then
       vim.cmd(':q') -- close the terminal window
     else
-      -- resize to failure size if we have not quit
+      -- resize to failure size if we have not quit and set name term
       if utils.isOpenBufferATerminal() then
         vim.cmd('vertical resize ' .. M.terminal_sizeOnFailure)
+        vim.api.nvim_buf_set_name(0, 'term' .. vim.api.nvim_buf_get_name(0))
       end
     end
     if M.printOnFailure then
@@ -165,6 +164,7 @@ vim.cmd([[command! DeployRobotCode lua require'FRCNeovim'.deployRobotCode()]])
 vim.cmd([[command! BuildRobotCode lua require'FRCNeovim'.buildRobotCode()]])
 
 vim.cmd("command! -nargs=1 AddVendorDep lua require'vendorDep'.addVendorDep(<f-args>)")
+vim.cmd([[command! CloseAllOpenTerminals lua require'utils'.closeAllOpenTerminals()]])
 
 -- help command
 vim.cmd([[command! -nargs=0 FRCNeovimHelp :help FRCNeovim]])
