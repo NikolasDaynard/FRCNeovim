@@ -1,6 +1,6 @@
 local M = {}
 
-local utils = require'utils'
+local utils = require'FRCutils'
 
 function M.addVendorDep(link)
   if checkConfigs() == false then

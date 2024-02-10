@@ -2,7 +2,7 @@
 
 local M = {}
 
-local utils = require'utils'
+local utils = require'FRCutils'
 local vendorDep = require'vendorDep'
 
 function M.setup(options)
